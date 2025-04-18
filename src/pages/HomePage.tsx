@@ -21,7 +21,8 @@ export const HomePage: React.FC = () => {
     advanceButtonState, 
     resetTodayLogs, 
     acknowledgeWeatherAlert,
-    getCurrentShift
+    getCurrentShift,
+    addAttendanceLog
   } = useAppContext();
   
   const [elapsedTime, setElapsedTime] = useState<string>('');
@@ -74,6 +75,14 @@ export const HomePage: React.FC = () => {
     setShowResetConfirm(true);
   };
   
+  // Handle punch button click
+  const handlePunchClick = () => {
+    // Add a 'punch' log
+    if (state.currentButtonStatus === ButtonStatus.WORKING) {
+      addAttendanceLog('punch');
+    }
+  };
+  
   // Confirm reset
   const confirmReset = () => {
     resetTodayLogs();
@@ -97,6 +106,12 @@ export const HomePage: React.FC = () => {
     { time: '16:00', temp: 27, condition: 'cloudy' as const },
     { time: '17:00', temp: 26, condition: 'rainy' as const }
   ];
+
+  // Determine if we should show the punch button based on current shift and button status
+  const shouldShowPunch = currentShift?.showPunch && state.currentButtonStatus === ButtonStatus.WORKING;
+  
+  // Get button mode from user settings
+  const buttonMode = state.userSettings.multiButtonMode || 'full';
 
   return (
     <div className="min-h-screen bg-app-dark text-white">
@@ -155,7 +170,10 @@ export const HomePage: React.FC = () => {
             status={state.currentButtonStatus}
             onClick={handleButtonClick}
             onReset={handleResetClick}
+            onPunch={handlePunchClick}
+            showPunch={shouldShowPunch}
             elapsedTime={elapsedTime}
+            mode={buttonMode}
           />
         </div>
         
