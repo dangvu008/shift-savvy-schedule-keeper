@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { format, differenceInMinutes, parseISO } from 'date-fns';
-import { vi } from 'date-fns/locale'; // Properly import the Vietnamese locale
+import { vi } from 'date-fns/locale';
 import { useAppContext } from '@/context/AppContext';
 import { MultiButton } from '@/components/MultiButton';
 import { ShiftInfo } from '@/components/ShiftInfo';
@@ -9,6 +8,7 @@ import { AttendanceLogList } from '@/components/AttendanceLogList';
 import { WeeklyStatusGrid } from '@/components/WeeklyStatusGrid';
 import { NotesList } from '@/components/NotesList';
 import { WeatherAlert } from '@/components/WeatherAlert';
+import { NextWeatherForecast } from '@/components/NextWeatherForecast';
 import { Button } from '@/components/ui/button';
 import { Settings, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -90,7 +90,14 @@ export const HomePage: React.FC = () => {
     setSelectedNote(note);
     setShowNoteForm(true);
   };
-  
+
+  // Add mock weather data for demonstration
+  const mockWeatherForecast = [
+    { time: '15:00', temp: 28, condition: 'partly-cloudy' as const },
+    { time: '16:00', temp: 27, condition: 'cloudy' as const },
+    { time: '17:00', temp: 26, condition: 'rainy' as const }
+  ];
+
   return (
     <div className="min-h-screen bg-app-dark text-white">
       <div className="container py-6 max-w-md mx-auto px-4">
@@ -135,6 +142,9 @@ export const HomePage: React.FC = () => {
             onAcknowledge={acknowledgeWeatherAlert}
           />
         ))}
+        
+        {/* Next 3 hours weather forecast */}
+        <NextWeatherForecast forecast={mockWeatherForecast} />
         
         {/* Active shift info */}
         <ShiftInfo shift={currentShift} />
