@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { format, differenceInMinutes, parseISO } from 'date-fns';
+import { vi } from 'date-fns/locale'; // Properly import the Vietnamese locale
 import { useAppContext } from '@/context/AppContext';
 import { MultiButton } from '@/components/MultiButton';
 import { ShiftInfo } from '@/components/ShiftInfo';
@@ -33,7 +34,7 @@ export const HomePage: React.FC = () => {
   const currentShift = getCurrentShift();
   const currentTime = new Date();
   const formattedTime = format(currentTime, 'HH:mm');
-  const formattedDate = format(currentTime, 'EEEE, dd/MM', { locale: require('date-fns/locale/vi') });
+  const formattedDate = format(currentTime, 'EEEE, dd/MM', { locale: vi });
   
   // Active weather alerts (not acknowledged)
   const activeAlerts = state.weatherAlerts.filter(alert => !alert.acknowledged);
