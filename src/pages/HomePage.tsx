@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { format, differenceInMinutes, parseISO } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -12,7 +13,7 @@ import { NextWeatherForecast } from '@/components/NextWeatherForecast';
 import { Button } from '@/components/ui/button';
 import { Settings, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Note } from '@/types/app';
+import { Note, ButtonStatus } from '@/types/app';
 import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 
 export const HomePage: React.FC = () => {

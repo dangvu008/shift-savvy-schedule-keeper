@@ -18,9 +18,18 @@ export const NotesList: React.FC<NotesListProps> = ({
   onEditNote,
   onDeleteNote
 }) => {
-  const sortedNotes = [...notes].sort((a, b) => {
-    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-  });
+  // Sort notes by reminder time and take top 3
+  const sortedNotes = [...notes]
+    .sort((a, b) => {
+      // First sort by reminder time
+      const timeA = a.reminderTime || '99:99';
+      const timeB = b.reminderTime || '99:99';
+      if (timeA !== timeB) return timeA.localeCompare(timeB);
+      
+      // If reminder times are equal, sort by last updated
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    })
+    .slice(0, 3);
 
   return (
     <div className="mb-4">
@@ -29,7 +38,7 @@ export const NotesList: React.FC<NotesListProps> = ({
         <Button
           onClick={onAddNote}
           variant="outline"
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 bg-app-dark-light border-app-dark-border"
         >
           <Plus className="h-4 w-4" /> Thêm ghi chú
         </Button>
@@ -42,7 +51,7 @@ export const NotesList: React.FC<NotesListProps> = ({
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-3 max-h-[300px] overflow-y-auto no-scrollbar">
+        <div className="space-y-3">
           {sortedNotes.map(note => (
             <Card key={note.id} className="bg-app-dark-light border-app-dark-border">
               <CardHeader className="p-3 pb-1">
@@ -71,9 +80,11 @@ export const NotesList: React.FC<NotesListProps> = ({
                 </div>
               </CardHeader>
               <CardContent className="p-3 pt-0">
-                <p className="text-sm text-app-dark-text-secondary truncate">{note.content}</p>
+                <p className="text-sm text-app-dark-text-secondary truncate">
+                  {note.content}
+                </p>
                 <div className="mt-2 text-xs text-app-dark-text-muted">
-                  Nhắc nhở: {note.reminderTime}
+                  Nhắc nhở: {note.reminderTime || 'Không có'}
                 </div>
               </CardContent>
             </Card>

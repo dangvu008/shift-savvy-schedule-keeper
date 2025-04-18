@@ -2,15 +2,23 @@
 import React from 'react';
 import { DailyWorkStatus, WeekDay, WorkStatus } from '@/types/app';
 import { 
-  AlertCircle,
-  AlertTriangle, 
-  Check, 
-  Clock, 
-  Hourglass, 
-  X
+  AlertCircle, 
+  AlertTriangle,
+  Check,
+  Clock,
+  Hourglass,
+  X,
+  Info
 } from 'lucide-react';
 import { format, parseISO, startOfWeek, addDays } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 interface WeeklyStatusGridProps {
   dailyStatuses: Record<string, DailyWorkStatus>;
@@ -28,20 +36,10 @@ const DAY_LABELS: Record<WeekDay, string> = {
   'Sun': 'CN'
 };
 
-const DAY_INDEXES: Record<WeekDay, number> = {
-  'Mon': 1,
-  'Tue': 2,
-  'Wed': 3,
-  'Thu': 4,
-  'Fri': 5,
-  'Sat': 6,
-  'Sun': 0
-};
-
 const STATUS_CONFIGS: Record<WorkStatus, { icon: React.ReactNode; bgColor: string; textColor: string }> = {
   [WorkStatus.PENDING]: { 
     icon: <Hourglass className="h-4 w-4" />, 
-    bgColor: 'bg-app-dark-text-muted', 
+    bgColor: 'bg-app-dark-light', 
     textColor: 'text-white'
   },
   [WorkStatus.GO_WORK]: { 
@@ -85,7 +83,7 @@ const STATUS_CONFIGS: Record<WorkStatus, { icon: React.ReactNode; bgColor: strin
     textColor: 'text-white'
   },
   [WorkStatus.HOLIDAY]: { 
-    icon: <Check className="h-4 w-4" />, 
+    icon: <Info className="h-4 w-4" />, 
     bgColor: 'bg-app-status-success/70', 
     textColor: 'text-white'
   },
@@ -95,7 +93,7 @@ const STATUS_CONFIGS: Record<WorkStatus, { icon: React.ReactNode; bgColor: strin
     textColor: 'text-app-dark-text-muted'
   },
   [WorkStatus.VACATION]: { 
-    icon: <Check className="h-4 w-4" />, 
+    icon: <Info className="h-4 w-4" />, 
     bgColor: 'bg-app-purple-light', 
     textColor: 'text-white'
   }
@@ -106,9 +104,11 @@ export const WeeklyStatusGrid: React.FC<WeeklyStatusGridProps> = ({
   firstDayOfWeek = 'Mon',
   onCellClick
 }) => {
+  const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
+  const [showDetails, setShowDetails] = React.useState(false);
+
   // Calculate the current week's days
   const now = new Date();
-  // Convert our index to the type expected by date-fns (0-6, where 0 is Sunday)
   const weekStartsOn = firstDayOfWeek === 'Mon' ? 1 : 0;
   const weekStart = startOfWeek(now, { weekStartsOn });
   
@@ -133,6 +133,14 @@ export const WeeklyStatusGrid: React.FC<WeeklyStatusGridProps> = ({
       status
     };
   });
+
+  const handleCellClick = (date: string) => {
+    setSelectedDate(date);
+    setShowDetails(true);
+    onCellClick?.(date);
+  };
+
+  const selectedStatus = selectedDate ? dailyStatuses[selectedDate] : null;
 
   return (
     <div className="card-container mb-4">
@@ -165,7 +173,7 @@ export const WeeklyStatusGrid: React.FC<WeeklyStatusGridProps> = ({
             <div 
               key={`status-${day.date}`}
               className="weekly-day-cell flex justify-center cursor-pointer"
-              onClick={() => onCellClick?.(day.date)}
+              onClick={() => handleCellClick(day.date)}
             >
               <div className={`status-indicator ${config.bgColor} ${config.textColor}`}>
                 {config.icon}
@@ -196,6 +204,31 @@ export const WeeklyStatusGrid: React.FC<WeeklyStatusGridProps> = ({
           );
         })}
       </div>
+
+      {/* Details Dialog */}
+      <Dialog open={showDetails} onOpenChange={setShowDetails}>
+        <DialogContent className="bg-app-dark-light border-app-dark-border">
+          <DialogHeader>
+            <DialogTitle>Chi tiết trạng thái</DialogTitle>
+            {selectedStatus && (
+              <DialogDescription>
+                <div className="text-app-dark-text-secondary mt-2">
+                  <p>Ngày: {format(parseISO(selectedStatus.date), 'dd/MM/yyyy')}</p>
+                  {selectedStatus.shiftName && (
+                    <p>Ca làm: {selectedStatus.shiftName}</p>
+                  )}
+                  {selectedStatus.totalHours !== undefined && (
+                    <p>Số giờ làm: {selectedStatus.totalHours.toFixed(1)}h</p>
+                  )}
+                  {selectedStatus.remarks && (
+                    <p>Ghi chú: {selectedStatus.remarks}</p>
+                  )}
+                </div>
+              </DialogDescription>
+            )}
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
