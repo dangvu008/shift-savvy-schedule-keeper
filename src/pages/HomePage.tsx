@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { format, differenceInMinutes, parseISO } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -15,6 +14,7 @@ import { Settings, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Note, ButtonStatus } from '@/types/app';
 import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { BottomNav } from '@/components/BottomNav';
 
 export const HomePage: React.FC = () => {
   const { 
@@ -115,7 +115,7 @@ export const HomePage: React.FC = () => {
   const buttonMode = state.userSettings.multiButtonMode || 'full';
 
   return (
-    <div className="min-h-screen bg-app-dark text-white">
+    <div className="min-h-screen bg-app-dark text-white pb-16">
       <div className="container py-6 max-w-md mx-auto px-4">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -223,6 +223,7 @@ export const HomePage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
+      <BottomNav />
     </div>
   );
 };
