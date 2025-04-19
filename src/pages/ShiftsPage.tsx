@@ -33,6 +33,13 @@ const ShiftsPage = () => {
     navigate(`/shifts/edit/${shift.id}`);
   };
 
+  // Function to handle dialog open state change
+  const handleDialogOpenChange = (open: boolean) => {
+    if (!open) {
+      setConfirmDelete(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-app-dark text-white pb-16">
       <div className="container py-6 max-w-md mx-auto px-4">
@@ -103,7 +110,7 @@ const ShiftsPage = () => {
         </div>
 
         {/* Delete confirmation dialog */}
-        <Dialog open={confirmDelete !== null} onOpenChange={setConfirmDelete}>
+        <Dialog open={confirmDelete !== null} onOpenChange={handleDialogOpenChange}>
           <DialogContent className="bg-app-dark-light border-app-dark-border">
             <DialogHeader>
               <DialogTitle>Xác nhận xóa ca làm việc</DialogTitle>
@@ -136,4 +143,3 @@ const ShiftsPage = () => {
 };
 
 export default ShiftsPage;
-
