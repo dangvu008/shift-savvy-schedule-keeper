@@ -122,7 +122,8 @@ const StatisticsPage: React.FC = () => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-xl md:text-2xl font-bold">Thống kê tháng</h1>
+          {/* Optionally remove or comment out the header text */}
+          {/* <h1 className="text-xl md:text-2xl font-bold">Thống kê tháng</h1> */}
           <div className="ml-auto flex gap-1 md:gap-2 overflow-x-auto">
             <Button
               variant="outline"
@@ -151,7 +152,8 @@ const StatisticsPage: React.FC = () => {
           </div>
         </div>
         
-        <div className="text-center text-app-dark-text-secondary mb-4 md:mb-6">
+        {/* Date range display, which can now serve as a pseudo-header if needed */}
+        <div className="text-center text-app-dark-text-secondary mb-4 md:mb-6 text-lg font-semibold">
           {formatDateRange()}
         </div>
         
