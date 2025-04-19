@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,7 @@ import SettingsPage from "@/pages/SettingsPage";
 import StatisticsPage from "@/pages/StatisticsPage";
 import ShiftFormPage from "@/pages/ShiftFormPage";
 import NoteFormPage from "@/pages/NoteFormPage";
+import ShiftsPage from "@/pages/ShiftsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,7 @@ const App = () => (
             <Route path="/" element={<HomePage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/statistics" element={<StatisticsPage />} />
+            <Route path="/shifts" element={<ShiftsPage />} />
             <Route path="/shifts/add" element={<ShiftFormPage />} />
             <Route path="/shifts/edit/:id" element={<ShiftFormPage />} />
             <Route path="/notes/add" element={<NoteFormPage />} />
@@ -37,3 +40,4 @@ const App = () => (
 );
 
 export default App;
+

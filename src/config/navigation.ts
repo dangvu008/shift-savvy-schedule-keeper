@@ -1,5 +1,5 @@
 
-import { Home, CalendarDays, FileText, Settings } from 'lucide-react';
+import { Home, CalendarDays, FileText, BarChart3 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
 export interface MenuItem {
@@ -10,7 +10,8 @@ export interface MenuItem {
 
 export const bottomNavItems: MenuItem[] = [
   { path: '/', icon: Home, label: 'Trang chủ' },
-  { path: '/shifts/add', icon: CalendarDays, label: 'Ca làm việc' },
+  { path: '/shifts', icon: CalendarDays, label: 'Ca làm việc' },
   { path: '/notes/add', icon: FileText, label: 'Ghi chú' },
-  { path: '/settings', icon: Settings, label: 'Cài đặt' }
+  { path: '/statistics', icon: BarChart3, label: 'Thống kê' }
 ];
+
