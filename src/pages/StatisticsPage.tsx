@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '@/context/AppContext';
@@ -112,23 +111,23 @@ const StatisticsPage: React.FC = () => {
   
   return (
     <div className="min-h-screen bg-app-dark text-white">
-      <div className="container py-6 max-w-4xl mx-auto px-4">
+      <div className="container max-w-full md:max-w-4xl mx-auto px-4 py-4 md:py-6">
         {/* Header */}
-        <div className="flex items-center mb-6">
+        <div className="flex items-center gap-2 mb-4 md:mb-6">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={() => navigate('/')}
-            className="mr-2"
+            className="shrink-0"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-2xl font-bold">Thống kê tháng</h1>
-          <div className="ml-auto flex gap-2">
+          <h1 className="text-xl md:text-2xl font-bold">Thống kê tháng</h1>
+          <div className="ml-auto flex gap-1 md:gap-2 overflow-x-auto">
             <Button
               variant="outline"
               size="sm"
-              className={`${periodFilter === 'week' ? 'bg-app-purple text-white' : 'bg-app-dark-light'}`}
+              className={`${periodFilter === 'week' ? 'bg-app-purple text-white' : 'bg-app-dark-light'} whitespace-nowrap`}
               onClick={() => setPeriodFilter('week')}
             >
               Tuần này
@@ -136,7 +135,7 @@ const StatisticsPage: React.FC = () => {
             <Button
               variant="outline"
               size="sm"
-              className={`${periodFilter === 'month' ? 'bg-app-purple text-white' : 'bg-app-dark-light'}`}
+              className={`${periodFilter === 'month' ? 'bg-app-purple text-white' : 'bg-app-dark-light'} whitespace-nowrap`}
               onClick={() => setPeriodFilter('month')}
             >
               Tháng này
@@ -144,7 +143,7 @@ const StatisticsPage: React.FC = () => {
             <Button
               variant="outline"
               size="sm"
-              className={`${periodFilter === 'year' ? 'bg-app-purple text-white' : 'bg-app-dark-light'}`}
+              className={`${periodFilter === 'year' ? 'bg-app-purple text-white' : 'bg-app-dark-light'} whitespace-nowrap`}
               onClick={() => setPeriodFilter('year')}
             >
               Năm nay
@@ -152,77 +151,77 @@ const StatisticsPage: React.FC = () => {
           </div>
         </div>
         
-        <div className="text-center text-app-dark-text-secondary mb-6">
+        <div className="text-center text-app-dark-text-secondary mb-4 md:mb-6">
           {formatDateRange()}
         </div>
         
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
           <Card className="bg-app-dark-light border-app-dark-border">
-            <CardContent className="p-4">
+            <CardContent className="p-3 md:p-4">
               <h3 className="text-lg font-medium mb-1">Tổng giờ làm</h3>
-              <p className="text-3xl font-bold text-app-purple">{stats.totalWorkHours}h</p>
+              <p className="text-2xl md:text-3xl font-bold text-app-purple">{stats.totalWorkHours}h</p>
             </CardContent>
           </Card>
           
           <Card className="bg-app-dark-light border-app-dark-border">
-            <CardContent className="p-4">
+            <CardContent className="p-3 md:p-4">
               <h3 className="text-lg font-medium mb-1">Tổng giờ OT</h3>
-              <p className="text-3xl font-bold text-app-status-info">{stats.totalOTHours}h</p>
+              <p className="text-2xl md:text-3xl font-bold text-app-status-info">{stats.totalOTHours}h</p>
             </CardContent>
           </Card>
           
           <Card className="bg-app-dark-light border-app-dark-border">
-            <CardContent className="p-4">
+            <CardContent className="p-3 md:p-4">
               <h3 className="text-lg font-medium mb-1">Ngày làm việc</h3>
-              <p className="text-3xl font-bold text-app-status-success">{stats.workDays}</p>
+              <p className="text-2xl md:text-3xl font-bold text-app-status-success">{stats.workDays}</p>
             </CardContent>
           </Card>
         </div>
         
         {/* Status Distribution */}
-        <Card className="bg-app-dark-light border-app-dark-border mb-6">
-          <CardContent className="p-4">
-            <h2 className="text-xl font-bold mb-4">Phân bố trạng thái</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-              <div className="bg-app-status-success/20 rounded-lg p-3 text-center">
+        <Card className="bg-app-dark-light border-app-dark-border mb-4 md:mb-6">
+          <CardContent className="p-3 md:p-4">
+            <h2 className="text-xl font-bold mb-3 md:mb-4">Phân bố trạng thái</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 md:gap-3">
+              <div className="bg-app-status-success/20 rounded-lg p-2 md:p-3 text-center">
                 <h3 className="text-sm text-app-dark-text-secondary mb-1">Hoàn thành</h3>
-                <p className="text-2xl font-bold text-app-status-success">
+                <p className="text-xl md:text-2xl font-bold text-app-status-success">
                   {stats.statusCounts[WorkStatus.COMPLETED]}
                 </p>
               </div>
               
-              <div className="bg-app-status-error/20 rounded-lg p-3 text-center">
+              <div className="bg-app-status-error/20 rounded-lg p-2 md:p-3 text-center">
                 <h3 className="text-sm text-app-dark-text-secondary mb-1">Đi muộn</h3>
-                <p className="text-2xl font-bold text-app-status-error">
+                <p className="text-xl md:text-2xl font-bold text-app-status-error">
                   {stats.statusCounts[WorkStatus.LATE]}
                 </p>
               </div>
               
-              <div className="bg-app-status-error/20 rounded-lg p-3 text-center">
+              <div className="bg-app-status-error/20 rounded-lg p-2 md:p-3 text-center">
                 <h3 className="text-sm text-app-dark-text-secondary mb-1">Về sớm</h3>
-                <p className="text-2xl font-bold text-app-status-error">
+                <p className="text-xl md:text-2xl font-bold text-app-status-error">
                   {stats.statusCounts[WorkStatus.EARLY_LEAVE]}
                 </p>
               </div>
               
-              <div className="bg-app-status-error/20 rounded-lg p-3 text-center">
+              <div className="bg-app-status-error/20 rounded-lg p-2 md:p-3 text-center">
                 <h3 className="text-sm text-app-dark-text-secondary mb-1">Muộn & sớm</h3>
-                <p className="text-2xl font-bold text-app-status-error">
+                <p className="text-xl md:text-2xl font-bold text-app-status-error">
                   {stats.statusCounts[WorkStatus.LATE_EARLY]}
                 </p>
               </div>
               
-              <div className="bg-app-status-warning/20 rounded-lg p-3 text-center">
+              <div className="bg-app-status-warning/20 rounded-lg p-2 md:p-3 text-center">
                 <h3 className="text-sm text-app-dark-text-secondary mb-1">Thiếu log</h3>
-                <p className="text-2xl font-bold text-app-status-warning">
+                <p className="text-xl md:text-2xl font-bold text-app-status-warning">
                   {stats.statusCounts[WorkStatus.MISSING_LOGS]}
                 </p>
               </div>
               
-              <div className="bg-app-purple/20 rounded-lg p-3 text-center">
+              <div className="bg-app-purple/20 rounded-lg p-2 md:p-3 text-center">
                 <h3 className="text-sm text-app-dark-text-secondary mb-1">Nghỉ phép</h3>
-                <p className="text-2xl font-bold text-app-purple">
+                <p className="text-xl md:text-2xl font-bold text-app-purple">
                   {stats.statusCounts[WorkStatus.VACATION]}
                 </p>
               </div>
@@ -295,7 +294,7 @@ const StatisticsPage: React.FC = () => {
           </CardContent>
         </Card>
         
-        <div className="text-center mt-6">
+        <div className="text-center mt-4 md:mt-6">
           <Button
             variant="outline"
             className="bg-app-dark-light"
